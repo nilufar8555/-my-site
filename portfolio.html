@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portfel — Shaxsiy Sayt</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+    :root {
+      --navy: #0a0f2c;
+      --blue: #1a2a6c;
+      --accent: #00d4ff;
+      --accent2: #b21fbe;
+      --light: #f0f4ff;
+      --card-bg: #111836;
+      --text-muted: #8892b0;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--navy);
+      color: var(--light);
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 999;
+      background: rgba(10,15,44,0.92);
+      backdrop-filter: blur(10px);
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(0,212,255,0.15);
+    }
+    .nav-inner {
+      max-width: 1100px; margin: auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 24px;
+    }
+    .logo {
+      font-size: 1.5rem; font-weight: 800;
+      color: var(--accent);
+      letter-spacing: -0.5px;
+    }
+    .logo span { color: var(--light); }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none; font-size: .9rem;
+      transition: color .25s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-toggle { display: none; background: none; border: none; color: var(--accent); font-size: 1.4rem; }
+
+    /* ── HERO ── */
+    #home {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      background: radial-gradient(ellipse at 70% 40%, rgba(26,42,108,0.6) 0%, transparent 70%),
+                  linear-gradient(135deg, var(--navy) 0%, #0d1b4b 100%);
+      padding: 100px 24px 60px;
+    }
+    .hero-inner {
+      max-width: 1100px; margin: auto;
+      display: flex; align-items: center; gap: 60px;
+      flex-wrap: wrap;
+    }
+    .hero-text { flex: 1; min-width: 280px; }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(0,212,255,0.12);
+      border: 1px solid rgba(0,212,255,0.3);
+      color: var(--accent);
+      font-size: .8rem; letter-spacing: 2px; text-transform: uppercase;
+      padding: 5px 14px; border-radius: 20px; margin-bottom: 20px;
+    }
+    .hero-text h1 {
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 800; line-height: 1.1;
+      margin-bottom: 12px;
+    }
+    .hero-text h1 span {
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-text .subtitle {
+      font-size: 1.15rem; color: var(--text-muted);
+      margin-bottom: 32px; line-height: 1.6;
+    }
+    .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn-primary-custom {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff; font-weight: 600;
+      padding: 12px 30px; border-radius: 8px;
+      border: none; cursor: pointer;
+      text-decoration: none; display: inline-block;
+      transition: opacity .25s, transform .25s;
+    }
+    .btn-primary-custom:hover { opacity: .85; transform: translateY(-2px); color:#fff; }
+    .btn-outline-custom {
+      border: 1.5px solid var(--accent); color: var(--accent);
+      padding: 12px 30px; border-radius: 8px;
+      background: transparent; cursor: pointer;
+      text-decoration: none; display: inline-block;
+      transition: background .25s, color .25s;
+    }
+    .btn-outline-custom:hover { background: var(--accent); color: var(--navy); }
+
+    /* avatar */
+    .hero-avatar { flex-shrink: 0; }
+    .avatar-ring {
+      width: 240px; height: 240px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      padding: 4px;
+      animation: spin-ring 8s linear infinite;
+    }
+    @keyframes spin-ring {
+      0%   { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(360deg); }
+    }
+    .avatar-inner {
+      width: 100%; height: 100%; border-radius: 50%;
+      background: var(--card-bg);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 5rem; color: var(--accent);
+    }
+
+    /* stats row */
+    .stats-row {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; gap: 16px; flex-wrap: wrap; padding: 0 24px 70px;
+    }
+    .stat-box {
+      flex: 1; min-width: 160px;
+      background: var(--card-bg);
+      border: 1px solid rgba(0,212,255,0.12);
+      border-radius: 12px; padding: 20px 24px;
+      text-align: center;
+    }
+    .stat-box .num {
+      font-size: 2rem; font-weight: 800;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .stat-box .label { font-size: .82rem; color: var(--text-muted); margin-top: 4px; }
+
+    /* ── SECTIONS COMMON ── */
+    section { padding: 90px 24px; }
+    .section-title {
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 800; margin-bottom: 10px;
+    }
+    .section-title span { color: var(--accent); }
+    .section-sub { color: var(--text-muted); margin-bottom: 50px; }
+    .section-wrap { max-width: 1100px; margin: auto; }
+
+    /* ── ABOUT ── */
+    #about { background: rgba(26,42,108,0.15); }
+    .about-grid { display: flex; gap: 50px; flex-wrap: wrap; align-items: center; }
+    .about-text { flex: 1; min-width: 280px; }
+    .about-text p { color: var(--text-muted); line-height: 1.9; margin-bottom: 16px; }
+    .skills-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+    .skill-tag {
+      background: rgba(0,212,255,0.1);
+      border: 1px solid rgba(0,212,255,0.25);
+      color: var(--accent);
+      padding: 6px 16px; border-radius: 20px; font-size: .83rem;
+    }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    .project-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(0,212,255,0.1);
+      border-radius: 14px; overflow: hidden;
+      transition: transform .3s, border-color .3s;
+    }
+    .project-card:hover { transform: translateY(-6px); border-color: var(--accent); }
+    .project-img {
+      height: 180px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3.5rem;
+    }
+    .p1 { background: linear-gradient(135deg, #1a2a6c, #0d4b8a); }
+    .p2 { background: linear-gradient(135deg, #2a0a5c, #6c1ab2); }
+    .p3 { background: linear-gradient(135deg, #0a3c2c, #0d8a5a); }
+    .project-body { padding: 22px; }
+    .project-body h5 { font-weight: 700; margin-bottom: 8px; }
+    .project-body p { color: var(--text-muted); font-size: .88rem; line-height: 1.7; margin-bottom: 16px; }
+    .tech-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tech-tag {
+      background: rgba(178,31,190,0.15);
+      border: 1px solid rgba(178,31,190,0.3);
+      color: #d66ee0; font-size: .75rem;
+      padding: 3px 10px; border-radius: 12px;
+    }
+
+    /* ── SKILLS ── */
+    #skills { background: rgba(26,42,108,0.15); }
+    .skills-bars { display: flex; flex-direction: column; gap: 20px; max-width: 680px; }
+    .skill-bar-wrap {}
+    .skill-bar-label { display: flex; justify-content: space-between; margin-bottom: 7px; font-size: .88rem; }
+    .skill-bar-track {
+      height: 8px; background: rgba(255,255,255,0.08);
+      border-radius: 8px; overflow: hidden;
+    }
+    .skill-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 8px; width: 0;
+      transition: width 1.2s cubic-bezier(.4,0,.2,1);
+    }
+
+    /* ── CONTACT ── */
+    .contact-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(0,212,255,0.12);
+      border-radius: 16px; padding: 40px;
+      max-width: 620px;
+    }
+    .contact-card .form-label { color: var(--text-muted); font-size: .88rem; }
+    .contact-card .form-control {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(0,212,255,0.2);
+      color: var(--light); border-radius: 8px;
+    }
+    .contact-card .form-control:focus {
+      background: rgba(255,255,255,0.08);
+      border-color: var(--accent);
+      color: var(--light);
+      box-shadow: 0 0 0 3px rgba(0,212,255,0.15);
+    }
+    #toast-msg {
+      display: none;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff; padding: 12px 22px; border-radius: 8px;
+      margin-top: 14px; font-size: .9rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--card-bg);
+      border-top: 1px solid rgba(0,212,255,0.1);
+      text-align: center; padding: 30px 24px;
+      color: var(--text-muted); font-size: .85rem;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; flex-direction: column; position: absolute;
+        top: 62px; left: 0; right: 0;
+        background: var(--navy); padding: 20px 24px;
+        border-bottom: 1px solid rgba(0,212,255,0.15); }
+      .nav-links.open { display: flex; }
+      .nav-toggle { display: block; }
+      .hero-inner { flex-direction: column-reverse; text-align: center; }
+      .hero-btns { justify-content: center; }
+      .avatar-ring { width: 180px; height: 180px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-inner">
+    <div class="logo">Dev<span>.UZ</span></div>
+    <button class="nav-toggle" id="navToggle"><i class="fas fa-bars"></i></button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home">Bosh sahifa</a></li>
+      <li><a href="#about">Men haqimda</a></li>
+      <li><a href="#projects">Loyihalar</a></li>
+      <li><a href="#skills">Ko'nikmalar</a></li>
+      <li><a href="#contact">Aloqa</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-badge">✦ Portfel saytim</div>
+      <h1>Salom, men —<br><span>Muhammadnofiy</span><br><span id="typed-name">Ulug'bekov</span></h1>
+      <p class="subtitle">Tug'ilgan sana: <strong style="color:var(--accent)">19 yanvar 2013</strong><br>HTML, CSS, Bootstrap va JavaScript yordamida<br>zamonaviy va chiroyli veb-saytlar yarataman.</p>
+      <div class="hero-btns">
+        <a href="#projects" class="btn-primary-custom">Loyihalarni ko'rish</a>
+        <a href="#contact" class="btn-outline-custom">Bog'lanish</a>
+      </div>
+    </div>
+    <div class="hero-avatar">
+      <div class="avatar-ring">
+        <div class="avatar-inner" style="overflow:hidden;padding:0;"><img src="photo.png" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" /></div>
+      </div>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="stat-box"><div class="num" data-target="12">0</div><div class="label">Tugallangan loyiha</div></div>
+    <div class="stat-box"><div class="num" data-target="8">0</div><div class="label">Mamnun mijoz</div></div>
+    <div class="stat-box"><div class="num" data-target="2">0</div><div class="label">Yil tajriba</div></div>
+    <div class="stat-box"><div class="num" data-target="4">0</div><div class="label">Texnologiya</div></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-wrap">
+    <h2 class="section-title">Men <span>haqimda</span></h2>
+    <p class="section-sub">Kim ekanligim va nima qilishim haqida qisqacha</p>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>Men veb-dasturlashga ishtiyoqli yosh dasturchiman. Har bir loyihada foydalanuvchi uchun qulay va ko'zni quvontiruvchi interfeyslar yaratishga harakat qilaman.</p>
+        <p>Mening maqsadim — murakkab g'oyalarni sodda va chiroyli veb-saytlarga aylantirish. Har bir kod qatorini e'tibor bilan yozaman.</p>
+        <div class="skills-grid">
+          <span class="skill-tag">HTML5</span>
+          <span class="skill-tag">CSS3</span>
+          <span class="skill-tag">Bootstrap 5</span>
+          <span class="skill-tag">JavaScript</span>
+          <span class="skill-tag">Responsive Design</span>
+          <span class="skill-tag">Git</span>
+          <span class="skill-tag">UI/UX</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-wrap">
+    <h2 class="section-title">Mening <span>Loyihalarim</span></h2>
+    <p class="section-sub">So'nggi ishlarimdan namunalar</p>
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <div class="project-img p1">🛒</div>
+        <div class="project-body">
+          <h5>Online Do'kon</h5>
+          <p>Bootstrap yordamida yaratilgan zamonaviy mahsulotlar katalogi. Filtr va qidiruv funksiyalari mavjud.</p>
+          <div class="tech-tags">
+            <span class="tech-tag">HTML</span>
+            <span class="tech-tag">CSS</span>
+            <span class="tech-tag">Bootstrap</span>
+            <span class="tech-tag">JS</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-img p2">📋</div>
+        <div class="project-body">
+          <h5>Vazifalar Ilovasi</h5>
+          <p>LocalStorage dan foydalanuvchi vazifa boshqaruv tizimi. Qo'shish, o'chirish va belgilash imkoniyati.</p>
+          <div class="tech-tags">
+            <span class="tech-tag">HTML</span>
+            <span class="tech-tag">CSS</span>
+            <span class="tech-tag">JavaScript</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-img p3">🌦️</div>
+        <div class="project-body">
+          <h5>Ob-havo Ilovasi</h5>
+          <p>OpenWeather API bilan ishlash qobilyatini ko'rsatuvchi ob-havo ma'lumotlari sayti.</p>
+          <div class="tech-tags">
+            <span class="tech-tag">HTML</span>
+            <span class="tech-tag">CSS</span>
+            <span class="tech-tag">JS</span>
+            <span class="tech-tag">API</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-wrap">
+    <h2 class="section-title">Ko'nikma <span>darajam</span></h2>
+    <p class="section-sub">Texnologiyalar bo'yicha bilim darajasi</p>
+    <div class="skills-bars">
+      <div class="skill-bar-wrap">
+        <div class="skill-bar-label"><span>HTML5</span><span>95%</span></div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" data-width="95"></div></div>
+      </div>
+      <div class="skill-bar-wrap">
+        <div class="skill-bar-label"><span>CSS3</span><span>88%</span></div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" data-width="88"></div></div>
+      </div>
+      <div class="skill-bar-wrap">
+        <div class="skill-bar-label"><span>Bootstrap 5</span><span>85%</span></div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" data-width="85"></div></div>
+      </div>
+      <div class="skill-bar-wrap">
+        <div class="skill-bar-label"><span>JavaScript</span><span>75%</span></div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" data-width="75"></div></div>
+      </div>
+      <div class="skill-bar-wrap">
+        <div class="skill-bar-label"><span>Responsive Design</span><span>90%</span></div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" data-width="90"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-wrap">
+    <h2 class="section-title">Men bilan <span>bog'laning</span></h2>
+    <p class="section-sub">Loyiha yoki hamkorlik uchun murojaat qiling</p>
+    <div class="contact-card">
+      <div class="mb-3">
+        <label class="form-label">Ismingiz</label>
+        <input type="text" class="form-control" id="inp-name" placeholder="Sardor Karimov">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-control" id="inp-email" placeholder="sardor@email.com">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Xabaringiz</label>
+        <textarea class="form-control" id="inp-msg" rows="4" placeholder="Loyiha haqida yozing..."></textarea>
+      </div>
+      <button class="btn-primary-custom w-100" onclick="sendMsg()">Xabar yuborish →</button>
+      <div id="toast-msg">✅ Xabaringiz qabul qilindi! Tez orada javob beraman.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 <a href="#">Dev.UZ</a> — HTML · CSS · Bootstrap · JavaScript bilan qurilgan</p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Mobile nav
+  document.getElementById('navToggle').addEventListener('click', () => {
+    document.getElementById('navLinks').classList.toggle('open');
+  });
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'));
+  });
+
+  // Typed name effect
+  const names = ['Ulug\'bekov', 'Frontend Dev', 'Ijodkor'];
+  let ni = 0, ci = 0, deleting = false;
+  const el = document.getElementById('typed-name');
+  function typeIt() {
+    const cur = names[ni];
+    if (!deleting) {
+      el.textContent = cur.slice(0, ++ci);
+      if (ci === cur.length) { deleting = true; setTimeout(typeIt, 1600); return; }
+    } else {
+      el.textContent = cur.slice(0, --ci);
+      if (ci === 0) { deleting = false; ni = (ni + 1) % names.length; }
+    }
+    setTimeout(typeIt, deleting ? 60 : 100);
+  }
+  typeIt();
+
+  // Counter animation
+  function animateCounters() {
+    document.querySelectorAll('.num[data-target]').forEach(el => {
+      const target = +el.dataset.target;
+      let cur = 0;
+      const step = Math.ceil(target / 40);
+      const t = setInterval(() => {
+        cur = Math.min(cur + step, target);
+        el.textContent = cur + '+';
+        if (cur >= target) clearInterval(t);
+      }, 40);
+    });
+  }
+
+  // Skill bars
+  function animateBars() {
+    document.querySelectorAll('.skill-bar-fill').forEach(bar => {
+      bar.style.width = bar.dataset.width + '%';
+    });
+  }
+
+  // Intersection observer
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        if (e.target.id === 'home') animateCounters();
+        if (e.target.id === 'skills') animateBars();
+      }
+    });
+  }, { threshold: 0.3 });
+  observer.observe(document.getElementById('home'));
+  observer.observe(document.getElementById('skills'));
+
+  // Contact form
+  function sendMsg() {
+    const n = document.getElementById('inp-name').value.trim();
+    const e = document.getElementById('inp-email').value.trim();
+    const m = document.getElementById('inp-msg').value.trim();
+    const toast = document.getElementById('toast-msg');
+    if (!n || !e || !m) {
+      toast.style.display = 'block';
+      toast.style.background = '#c0392b';
+      toast.textContent = '⚠️ Iltimos, barcha maydonlarni to\'ldiring.';
+      return;
+    }
+    toast.style.background = 'linear-gradient(135deg, #00d4ff, #b21fbe)';
+    toast.textContent = '✅ Xabaringiz qabul qilindi! Tez orada javob beraman.';
+    toast.style.display = 'block';
+    document.getElementById('inp-name').value = '';
+    document.getElementById('inp-email').value = '';
+    document.getElementById('inp-msg').value = '';
+  }
+</script>
+</body>
+</html>
